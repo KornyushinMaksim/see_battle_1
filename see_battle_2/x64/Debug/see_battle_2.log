@@ -1,0 +1,4 @@
+﻿  see_battle_2.cpp
+C:\Users\Макс\source\repos\see_battle_2\see_battle_2\see_battle_2.cpp(15,16): warning C4309: =: усечение константного значения
+C:\Users\Макс\source\repos\see_battle_2\see_battle_2\see_battle_2.cpp(30,10): warning C4129: : неизвестная escape-последовательность
+  see_battle_2.vcxproj -> C:\Users\Макс\source\repos\see_battle_2\x64\Debug\see_battle_2.exe
