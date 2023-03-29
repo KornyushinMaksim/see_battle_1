@@ -203,18 +203,160 @@ void location_ships(char map[][11], int row, int cols) {
 	}
 	system("cls");
 }
+//автоматическая расстановка
+void avto_location_ships(char map[][11], int row, int cols) {
+	int x, y, dir, deck;
+	for (int i = 0; i < 10; i++) {
+		x = rand() % 10 + 1;
+		y = rand() % 10 + 1;
+		dir = rand() % 4 + 1;
+		system("cls");
+		if (test_location(map, x, y)) {
+			if (i == 0) {
+				deck = 4;
+				if (test_init(map, x, y, deck, dir)) {
+					init_ships(map, x, y, deck, dir);
+					print_map(map, row, cols);
+				}
+				else {
+					i--;
+					print_map(map, row, cols);
+					cout << "Can't install ship!" << endl;
+				}
+			}
+			if (i == 1 || i == 2) {
+				deck = 3;
+				if (test_init(map, x, y, deck, dir)) {
+					init_ships(map, x, y, deck, dir);
+					print_map(map, row, cols);
+				}
+				else {
+					i--;
+					print_map(map, row, cols);
+					cout << "Can't install ship!" << endl;
+				}
+			}
+			if (i == 3 || i == 4 || i == 5) {
+				deck = 2;
+				if (test_init(map, x, y, deck, dir)) {
+					init_ships(map, x, y, deck, dir);
+					print_map(map, row, cols);
+				}
+				else {
+					i--;
+					print_map(map, row, cols);
+					cout << "Can't install ship!" << endl;
+				}
+			}
+			if (i == 6 || i == 7 || i == 8 || i == 9) {
+				deck = 1;
+					init_ships(map, x, y, deck, dir);
+					print_map(map, row, cols);
+			}
+		}
+		else {
+			cout << "Can't install ship!" << endl;
+			i--;
+			print_map(map, row, cols);
+		}
+	}
+	system("cls");
+}
 
 int main()
 {
+	srand(time(NULL));
 	const int row = 11,
 		cols = 11;
 	char my_map[row][cols]{};
 	char comp_map[row][cols]{};
 	init_map(my_map, row, cols);
 	init_map(comp_map, row, cols);
-	map_to_map(my_map, comp_map, row, cols);
 
-	location_ships(my_map, row, cols);
+	// игра
+	//while (true) {
+	//	bool flag = false;
+	//	int x, y;
+	//	cout << "Enter the coordinates of the shot: " << endl;
+	//	cin >> x >> y;
+	//	system("cls");
+	//	if ((x >= 0 && x <= 10) && (y >= 0 && y <= 10)) {
+	//		if (comp_map[x][y] == 79) {
+	//			if (comp_map[x][y + 1] == 79 ||     //проверка наличия соседних палуб
+	//				comp_map[x + 1][y + 1] == 79 ||
+	//				comp_map[x + 1][y] == 79 ||
+	//				comp_map[x + 1][y - 1] == 79 ||
+	//				comp_map[x][y - 1] == 79 ||
+	//				comp_map[x - 1][y - 1] == 79 ||
+	//				comp_map[x - 1][y] == 79 ||
+	//				comp_map[x - 1][y + 1] == 79) {
+	//				comp_map[x][y] = 88;
+	//				cout << "Injared !" << endl; //ранен
+	//			}
+	//			else {
+	//				cout << "You hit !" << endl;
+	//				if (y == 9) {
+	//					comp_map[x][y] = 88;
+	//					comp_map[x + 1][y] = 15;
+	//					comp_map[x + 1][y - 1] = 15;
+	//					comp_map[x][y - 1] = 15;
+	//					comp_map[x - 1][y - 1] = 15;
+	//					comp_map[x - 1][y] = 15;
+	//				}
+	//				else if (y == 0) {
+	//					comp_map[x][y] = 88;
+	//					comp_map[x][y + 1] = 15;
+	//					comp_map[x + 1][y + 1] = 15;
+	//					comp_map[x + 1][y] = 15;
+	//					comp_map[x - 1][y] = 15;
+	//					comp_map[x - 1][y + 1] = 15;
+	//				}
+	//				else {
+	//					comp_map[x][y] = 88;
+	//					comp_map[x][y + 1] = 15;
+	//					comp_map[x + 1][y + 1] = 15;
+	//					comp_map[x + 1][y] = 15;
+	//					comp_map[x + 1][y - 1] = 15;
+	//					comp_map[x][y - 1] = 15;
+	//					comp_map[x - 1][y - 1] = 15;
+	//					comp_map[x - 1][y] = 15;
+	//					comp_map[x - 1][y + 1] = 15;
+	//				}
+	//			}
+	//		}
+	//		else {
+	//			comp_map[x][y] = 88;
+	//			cout << "You missed !" << endl;
+	//		}
+	//		map_to_map(my_map, comp_map, row, cols);
+	//	}
+	//	else {
+	//		map_to_map(my_map, comp_map, row, cols);
+	//		cout << "You enter incorect valeu !" << endl;
+	//	}
+	//	////остановка игры. закончились корабли
+	//	////условие проверки коpаблей на поле
+	//	//for (int i = 0; i < row; i++) {
+	//	//	for (int j = 0; j < cols; j++) {
+	//	//		if (comp_map[i][j] == 79) {
+	//	//			flag = true;
+	//	//		}if (my_map[i][j] == 79) {
+	//	//			flag = true;
+	//	//		}
+	//	//	}
+	//	//}
+	//	//if (flag == false) {
+	//	//	break;
+	//	//}
+	//}
+	//cout << endl << "You lose..." << endl;
+
+
+
+
+
+	map_to_map(my_map, comp_map, row, cols);
+	avto_location_ships(comp_map, row, cols);
 	map_to_map(my_map, comp_map, row, cols);
 
 
