@@ -83,20 +83,20 @@ int& enter_direction(int& dir) {
 }
 //проверка координаты
 bool test_location(char map[][11], int& x, int& y, int& index) { //??????????????????????????????????????????????????????
-	bool test;
-	if ((map[x][y] == (48 + index) || map[x][y] == 250) &&
-		(map[x][y + 1] == (48 + index) || map[x][y + 1] == 250) &&
-		(map[x + 1][y + 1] == (48 + index) || map[x + 1][y + 1] == 250) &&
-		(map[x + 1][y] == (48 + index) || map[x + 1][y] == 250) &&
-		(map[x + 1][y - 1] == (48 + index) || map[x + 1][y - 1] == 250) &&
-		(map[x][y - 1] == (48 + index) || map[x][y - 1] == 250) &&
-		(map[x - 1][y - 1] == (48 + index) || map[x - 1][y - 1] == 250) &&
-		(map[x - 1][y] == (48 + index) || map[x - 1][y] == 250) &&
-		(map[x - 1][y + 1] == (48 + index) || map[x - 1][y + 1] == 250)) {
-		test = !true;
+	bool test = true;						------------
+	if (map[x][y] == 250 ||
+		map[x][y + 1] == 250 ||
+		map[x + 1][y + 1] == 250 
+		|| map[x + 1][y] == 250 
+		|| map[x + 1][y - 1] == 250 
+		|| map[x][y - 1] == 250 
+		|| map[x - 1][y - 1] == 250 
+		|| map[x - 1][y] == 250
+		|| map[x - 1][y + 1] == 250) {
+		//test = true;
 	}
 	else {
-		test = !false;
+		test = false;
 	}
 	return test;
 }
@@ -272,10 +272,11 @@ void edging_ship(char map[][11],int& x, int& y, int& index) {
 }
 //отрисовка кораблей
 void init_ships(char map[][11], int& x, int& y, int& deck, int& dir, int& index) {
-	if (test_init(map, x, y, deck, dir, index)) {
-		for (int i = 0; i < deck; i++) {
+	
+	for (int i = 0; i < deck; i++) {					-----
+		if (test_init(map, x, y, deck, dir, index)) {
 			map[x][y] = 48 + index;
-			edging_ship(map, /*row, cols,*/ x, y, index);
+			edging_ship(map, x, y, index);
 
 			if (dir == 1) {
 				y++;
