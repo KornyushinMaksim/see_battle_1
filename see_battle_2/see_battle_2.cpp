@@ -52,10 +52,13 @@ bool test_coordinates(int& x, int& y) {
 	return test;
 }
 //ввод координат
-int& coordinates(int& x, int& y) {
+int& enter_coordinates(int& x, int& y) {
 	cout << endl << "Enter a coordinates from 1 to 10" << endl;
-	while (true){
-		cin >> x >> y;
+	while (true) {
+		cout << "coordinate x: ";
+		cin >> x;
+		cout << "coordinate y: ";
+		cin >> y;
 		if (test_coordinates(x, y)) {
 			return x, y;
 		}
@@ -65,7 +68,7 @@ int& coordinates(int& x, int& y) {
 	}
 }
 //ввод направления
-int& direction(int& dir) {
+int& enter_direction(int& dir) {
 	//cout << "enter direction from 1 to 4" << endl;
 	while (true) {
 		cout << "Enter direction from 1 to 4\n1. right\n2. down\n3. left\n4. up" << endl;
@@ -79,29 +82,29 @@ int& direction(int& dir) {
 	}
 }
 //проверка координаты
-bool test_location(char map[][11], int& x, int& y) {
+bool test_location(char map[][11], int& x, int& y, int& index) { //??????????????????????????????????????????????????????
 	bool test;
-	if (map[x][y] != 79 &&
-		map[x][y + 1] != 79 &&
-		map[x + 1][y + 1] != 79 &&
-		map[x + 1][y] != 79 &&
-		map[x + 1][y - 1] != 79 &&
-		map[x][y - 1] != 79 &&
-		map[x - 1][y - 1] != 79 &&
-		map[x - 1][y] != 79 &&
-		map[x - 1][y + 1] != 79) {
-		test = true;
+	if ((map[x][y] == (48 + index) || map[x][y] == 250) &&
+		(map[x][y + 1] == (48 + index) || map[x][y + 1] == 250) &&
+		(map[x + 1][y + 1] == (48 + index) || map[x + 1][y + 1] == 250) &&
+		(map[x + 1][y] == (48 + index) || map[x + 1][y] == 250) &&
+		(map[x + 1][y - 1] == (48 + index) || map[x + 1][y - 1] == 250) &&
+		(map[x][y - 1] == (48 + index) || map[x][y - 1] == 250) &&
+		(map[x - 1][y - 1] == (48 + index) || map[x - 1][y - 1] == 250) &&
+		(map[x - 1][y] == (48 + index) || map[x - 1][y] == 250) &&
+		(map[x - 1][y + 1] == (48 + index) || map[x - 1][y + 1] == 250)) {
+		test = !true;
 	}
 	else {
-		test = false;
+		test = !false;
 	}
 	return test;
 }
 //проверка на возможность отрисовки
-bool test_init(char map[][11], int x, int y, int& deck, int& dir) {
+bool test_init(char map[][11], int x, int y, int& deck, int& dir, int& index) {
 	bool test = true;
 	for (int i = 0; i < deck; i++) {
-		if (test_location(map, x, y) && (test_coordinates(x, y))) {
+		if (test_location(map, x, y, index) && (test_coordinates(x, y))) {
 			if (dir == 1) {
 				y++;
 			}
@@ -122,11 +125,158 @@ bool test_init(char map[][11], int x, int y, int& deck, int& dir) {
 	}
 	return test;
 }
+//обрисовка
+void edging_ship(char map[][11],int& x, int& y, int& index) {
+	if (map[x][y] == 48 + index) {
+		if (y == 10) {
+			if (map[x + 1][y] != 48 + index) {
+				map[x + 1][y] = 42;
+			}
+			else {
+				map[x + 1][y] = 48 + index;
+			}
+			if (map[x + 1][y - 1] != 48 + index) {
+				map[x + 1][y - 1] = 42;
+			}
+			else {
+				map[x + 1][y - 1] = 48 + index;
+			}
+			if (map[x][y - 1] != 48 + index) {
+				map[x][y - 1] = 42;
+			}
+			else {
+				map[x][y - 1] = 48 + index;
+			}
+			if (map[x - 1][y - 1] != 48 + index) {
+				map[x - 1][y - 1] = 42;
+			}
+			else {
+				map[x - 1][y - 1] = 48 + index;
+			}
+			if (map[x - 1][y] != 48 + index) {
+				map[x - 1][y] = 42;
+			}
+			else {
+				map[x - 1][y] = 48 + index;
+			}
+		}
+		else if (y == 1) {
+			if (map[x][y + 1] != 48 + index) {
+				map[x][y + 1] = 42;
+			}
+			else {
+				map[x][y + 1] = 48 + index;
+			}
+			if (map[x + 1][y + 1] != 48 + index) {
+				map[x + 1][y + 1] = 42;
+			}
+			else {
+				map[x + 1][y + 1] = 48 + index;
+			}
+			if (map[x + 1][y] != 48 + index) {
+				map[x + 1][y] = 42;
+			}
+			else {
+				map[x + 1][y] = 48 + index;
+			}
+			if (map[x - 1][y] != 48 + index) {
+				map[x - 1][y] = 42;
+			}
+			else {
+				map[x - 1][y] = 48 + index;
+			}
+		}
+		else if (x == 1) {
+			if (map[x][y + 1] != 48 + index) {
+				map[x][y + 1] = 42;
+			}
+			else {
+				map[x][y + 1] = 48 + index;
+			}
+			if (map[x + 1][y + 1] != 48 + index) {
+				map[x + 1][y + 1] = 42;
+			}
+			else {
+				map[x + 1][y + 1] = 48 + index;
+			}
+			if (map[x + 1][y] != 48 + index) {
+				map[x + 1][y] = 42;
+			}
+			else {
+				map[x + 1][y] = 48 + index;
+			}
+			if (map[x + 1][y - 1] != 48 + index) {
+				map[x + 1][y - 1] = 42;
+			}
+			else {
+				map[x + 1][y - 1] = 48 + index;
+			}
+			if (map[x][y - 1] != 48 + index) {
+				map[x][y - 1] = 42;
+			}
+			else {
+				map[x][y - 1] = 48 + index;
+			}
+		}
+		else {
+			if (map[x][y + 1] != 48 + index) {
+				map[x][y + 1] = 42;
+			}
+			else {
+				map[x][y + 1] = 48 + index;
+			}
+			if (map[x + 1][y + 1] != 48 + index) {
+				map[x + 1][y + 1] = 42;
+			}
+			else {
+				map[x + 1][y + 1] = 48 + index;
+			}
+			if (map[x + 1][y] != 48 + index) {
+				map[x + 1][y] = 42;
+			}
+			else {
+				map[x + 1][y] = 48 + index;
+			}
+			if (map[x + 1][y - 1] != 48 + index) {
+				map[x + 1][y - 1] = 42;
+			}
+			else {
+				map[x + 1][y - 1] = 48 + index;
+			}
+			if (map[x][y - 1] != 48 + index) {
+				map[x][y - 1] = 42;
+			}
+			else {
+				map[x][y - 1] = 48 + index;
+			}
+			if (map[x - 1][y - 1] != 48 + index) {
+				map[x - 1][y - 1] = 42;
+			}
+			else {
+				map[x - 1][y - 1] = 48 + index;
+			}
+			if (map[x - 1][y] != 48 + index) {
+				map[x - 1][y] = 42;
+			}
+			else {
+				map[x - 1][y] = 48 + index;
+			}
+			if (map[x - 1][y + 1] != 48 + index) {
+				map[x - 1][y + 1] = 42;
+			}
+			else {
+				map[x - 1][y + 1] = 48 + index;
+			}
+		}
+	}
+}
 //отрисовка кораблей
-void init_ships(char map[][11], int& x, int& y, int& deck, int& dir) {
-	if (test_init(map, x, y, deck, dir)) {
+void init_ships(char map[][11], int& x, int& y, int& deck, int& dir, int& index) {
+	if (test_init(map, x, y, deck, dir, index)) {
 		for (int i = 0; i < deck; i++) {
-			map[x][y] = 79;
+			map[x][y] = 48 + index;
+			edging_ship(map, /*row, cols,*/ x, y, index);
+
 			if (dir == 1) {
 				y++;
 			}
@@ -149,14 +299,14 @@ void init_ships(char map[][11], int& x, int& y, int& deck, int& dir) {
 void location_ships(char map[][11], int row, int cols) {
 	int x, y, dir, deck;
 	for (int i = 0; i < 10; i++) {
-		coordinates(x, y);
-		direction(dir);
+		enter_coordinates(x, y);
+		enter_direction(dir);
 		system("cls");
-		if (test_location(map, x, y)) {
+		if (test_location(map, x, y, i)) {
 			if (i == 0) {
 				deck = 4;
-				if (test_init(map, x, y, deck, dir)) {
-					init_ships(map, x, y, deck, dir);
+				if (test_init(map, x, y, deck, dir, i)) {
+					init_ships(map, x, y, deck, dir, i);
 					print_map(map, row, cols);
 				}
 				else {
@@ -167,8 +317,8 @@ void location_ships(char map[][11], int row, int cols) {
 			}
 			if (i == 1 || i == 2) {
 				deck = 3;
-				if (test_init(map, x, y, deck, dir)) {
-					init_ships(map, x, y, deck, dir);
+				if (test_init(map, x, y, deck, dir, i)) {
+					init_ships(map, x, y, deck, dir, i);
 					print_map(map, row, cols);
 				}
 				else {
@@ -179,8 +329,8 @@ void location_ships(char map[][11], int row, int cols) {
 			}
 			if (i == 3 || i == 4 || i == 5) {
 				deck = 2;
-				if (test_init(map, x, y, deck, dir)) {
-					init_ships(map, x, y, deck, dir);
+				if (test_init(map, x, y, deck, dir, i)) {
+					init_ships(map, x, y, deck, dir, i);
 					print_map(map, row, cols);
 				}
 				else {
@@ -191,8 +341,8 @@ void location_ships(char map[][11], int row, int cols) {
 			}
 			if (i == 6 || i == 7 || i == 8 || i == 9) {
 				deck = 1;
-					init_ships(map, x, y, deck, dir);
-					print_map(map, row, cols);
+				init_ships(map, x, y, deck, dir, i);
+				print_map(map, row, cols);
 			}
 		}
 		else {
@@ -211,11 +361,11 @@ void avto_location_ships(char map[][11], int row, int cols) {
 		y = rand() % 10 + 1;
 		dir = rand() % 4 + 1;
 		system("cls");
-		if (test_location(map, x, y)) {
+		if (test_location(map, x, y, i)) {
 			if (i == 0) {
 				deck = 4;
-				if (test_init(map, x, y, deck, dir)) {
-					init_ships(map, x, y, deck, dir);
+				if (test_init(map, x, y, deck, dir, i)) {
+					init_ships(map, x, y, deck, dir, i);
 					print_map(map, row, cols);
 				}
 				else {
@@ -224,35 +374,35 @@ void avto_location_ships(char map[][11], int row, int cols) {
 					cout << "Can't install ship!" << endl;
 				}
 			}
-			if (i == 1 || i == 2) {
-				deck = 3;
-				if (test_init(map, x, y, deck, dir)) {
-					init_ships(map, x, y, deck, dir);
-					print_map(map, row, cols);
-				}
-				else {
-					i--;
-					print_map(map, row, cols);
-					cout << "Can't install ship!" << endl;
-				}
-			}
-			if (i == 3 || i == 4 || i == 5) {
-				deck = 2;
-				if (test_init(map, x, y, deck, dir)) {
-					init_ships(map, x, y, deck, dir);
-					print_map(map, row, cols);
-				}
-				else {
-					i--;
-					print_map(map, row, cols);
-					cout << "Can't install ship!" << endl;
-				}
-			}
-			if (i == 6 || i == 7 || i == 8 || i == 9) {
-				deck = 1;
-					init_ships(map, x, y, deck, dir);
-					print_map(map, row, cols);
-			}
+			//if (i == 1 || i == 2) {
+			//	deck = 3;
+			//	if (test_init(map, x, y, deck, dir, i)) {
+			//		init_ships(map, x, y, deck, dir, i);
+			//		print_map(map, row, cols);
+			//	}
+			//	else {
+			//		i--;
+			//		print_map(map, row, cols);
+			//		cout << "Can't install ship!" << endl;
+			//	}
+			//}
+			//if (i == 3 || i == 4 || i == 5) {
+			//	deck = 2;
+			//	if (test_init(map, x, y, deck, dir, i)) {
+			//		init_ships(map, x, y, deck, dir, i);
+			//		print_map(map, row, cols);
+			//	}
+			//	else {
+			//		i--;
+			//		print_map(map, row, cols);
+			//		cout << "Can't install ship!" << endl;
+			//	}
+			//}
+			//if (i == 6 || i == 7 || i == 8 || i == 9) {
+			//	deck = 1;
+			//	init_ships(map, x, y, deck, dir, i);
+			//	print_map(map, row, cols);
+			//}
 		}
 		else {
 			cout << "Can't install ship!" << endl;
@@ -262,6 +412,82 @@ void avto_location_ships(char map[][11], int row, int cols) {
 	}
 	system("cls");
 }
+//выстрел
+void shot(char map[][11], int& x, int& y) {
+	//int a = 0;
+	//int* shot = &a;
+	enter_coordinates(x, y);
+	system("cls");
+	if (test_coordinates(x, y)) {
+		int cuont = 0;
+		if (map[x][y] == '0') {
+			int deck = 4;
+			cuont++;
+		}
+		if (cuont == 4) {
+		}
+
+
+	//	if (map[x][y] == 79) {
+	//		if (map[x][y + 1] == 79 ||     //проверка наличия соседних палуб
+	//			map[x + 1][y + 1] == 79 ||
+	//			map[x + 1][y] == 79 ||
+	//			map[x + 1][y - 1] == 79 ||
+	//			map[x][y - 1] == 79 ||
+	//			map[x - 1][y - 1] == 79 ||
+	//			map[x - 1][y] == 79 ||
+	//			map[x - 1][y + 1] == 79) {
+	//			*shot = 1; //ранен
+	//			return shot;
+	//		}
+	//		else {
+	//			*shot = 2; //убил
+	//			return shot;
+	//			//----------------------------начало обрисовки
+	//			if (y == 9) {
+	//				map[x][y] = 88;
+	//				map[x + 1][y] = 15;
+	//				map[x + 1][y - 1] = 15;
+	//				map[x][y - 1] = 15;
+	//				map[x - 1][y - 1] = 15;
+	//				map[x - 1][y] = 15;
+	//			}
+	//			else if (y == 0) {
+	//				map[x][y] = 88;
+	//				map[x][y + 1] = 15;
+	//				map[x + 1][y + 1] = 15;
+	//				map[x + 1][y] = 15;
+	//				map[x - 1][y] = 15;
+	//				map[x - 1][y + 1] = 15;
+	//			}
+	//			else {
+	//				map[x][y] = 88;
+	//				map[x][y + 1] = 15;
+	//				map[x + 1][y + 1] = 15;
+	//				map[x + 1][y] = 15;
+	//				map[x + 1][y - 1] = 15;
+	//				map[x][y - 1] = 15;
+	//				map[x - 1][y - 1] = 15;
+	//				map[x - 1][y] = 15;
+	//				map[x - 1][y + 1] = 15;
+	//			}
+	//			//----------------------------- конец обрисовки
+	//		}
+	//	}
+	//	else {
+	//		*shot = 3; //промах
+	//		return shot;
+	//	}
+	//	//map_to_map(my_map, comp_map, row, cols);
+	//}
+	////else {
+	////	shot = 4;
+	////	return shot;
+	////	//map_to_map(my_map, comp_map, row, cols);
+	////	//cout << "You enter incorect valeu !" << endl;
+	}
+
+}
 
 int main()
 {
@@ -270,8 +496,12 @@ int main()
 		cols = 11;
 	char my_map[row][cols]{};
 	char comp_map[row][cols]{};
+	char copy_comp_map[row][cols]{};
+	char copy_my_map[row][cols]{};
 	init_map(my_map, row, cols);
 	init_map(comp_map, row, cols);
+	init_map(copy_comp_map, row, cols);
+	init_map(copy_my_map, row, cols);
 
 	// игра
 	//while (true) {
@@ -350,14 +580,40 @@ int main()
 	//	//}
 	//}
 	//cout << endl << "You lose..." << endl;
+	location_ships(comp_map, row, cols);
+	print_map(comp_map, row, cols);
+
+	//мой выстрел
+	bool repit_shot = true;
+	while (repit_shot) {
+		map_to_map(my_map, copy_comp_map, row, cols);
+		int x, y;
+		int* p_shot = shot(comp_map, x, y);
+		if (*p_shot == 1) {
+			//map_to_map(my_map, copy_comp_map, row, cols);
+			cout << "Injared";
+			copy_comp_map[x][y] = 88;
+			system("cls");
+		}
+		if (*p_shot == 2) {
+			//map_to_map(my_map, copy_comp_map, row, cols);
+			cout << "Hit !";
+			copy_comp_map[x][y] = 88;
+		}
+		if (*p_shot == 3) {
+			//map_to_map(my_map, copy_comp_map, row, cols);
+			cout << "You missed...";
+			repit_shot = true;
+			copy_comp_map[x][y] = 88;
+		}
+	}
 
 
 
 
-
-	map_to_map(my_map, comp_map, row, cols);
-	avto_location_ships(comp_map, row, cols);
-	map_to_map(my_map, comp_map, row, cols);
+	//map_to_map(my_map, comp_map, row, cols);
+	//avto_location_ships(comp_map, row, cols);
+	//map_to_map(my_map, comp_map, row, cols);
 
 
 }
